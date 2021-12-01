@@ -11,8 +11,9 @@ defmodule Aoc2021Test.D1 do
         int
       end)
 
-    Aoc2021.D1.part_1(input)
-    |> IO.inspect(label: :part_1)
+    assert 1581 ==
+             Aoc2021.D1.part_1(input)
+             |> IO.inspect(label: :part_1)
 
     :ok
   end
@@ -26,8 +27,9 @@ defmodule Aoc2021Test.D1 do
         int
       end)
 
-    Aoc2021.D1.part_2(input)
-    |> IO.inspect(label: :part_2)
+    assert 1618 ==
+             Aoc2021.D1.part_2(input)
+             |> IO.inspect(label: :part_2)
 
     :ok
   end
