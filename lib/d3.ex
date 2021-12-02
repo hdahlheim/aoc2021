@@ -4,7 +4,7 @@ defmodule Aoc2021.D3 do
 
   ## Examples
 
-      iex> Aoc2021.D1.part_1()
+      iex> Aoc2021.D3.part_1()
       150
 
   """
