@@ -29,18 +29,16 @@ defmodule Aoc2021.D2 do
     |> final_depth()
   end
 
-  defp move({:up, spaces}, %{x: _x, y: _y, aim: a} = pos),
-    do: %{pos | aim: a - spaces}
+  defp move({:up, units}, %{aim: a} = pos), do: %{pos | aim: a - units}
 
-  defp move({:down, spaces}, %{x: _x, y: _y, aim: a} = pos),
-    do: %{pos | aim: a + spaces}
+  defp move({:down, units}, %{aim: a} = pos), do: %{pos | aim: a + units}
 
-  defp move({:forward, spaces}, %{x: x, y: y, aim: a} = pos),
-    do: %{pos | x: x + spaces, y: y + a * spaces}
+  defp move({:forward, units}, %{x: x, y: y, aim: a} = pos),
+    do: %{pos | x: x + units, y: y + a * units}
 
-  defp move({:up, spaces}, %{x: _x, y: y} = pos), do: %{pos | y: y - spaces}
-  defp move({:down, spaces}, %{x: _x, y: y} = pos), do: %{pos | y: y + spaces}
-  defp move({:forward, spaces}, %{x: x, y: _y} = pos), do: %{pos | x: x + spaces}
+  defp move({:up, units}, %{y: y} = pos), do: %{pos | y: y - units}
+  defp move({:down, units}, %{y: y} = pos), do: %{pos | y: y + units}
+  defp move({:forward, units}, %{x: x} = pos), do: %{pos | x: x + units}
 
   defp final_depth(%{x: x, y: y}), do: x * y
 end
