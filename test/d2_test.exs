@@ -14,10 +14,10 @@ defmodule Aoc2021Test.D2 do
         {c, s}
       end)
 
-    Aoc2021.D2.part_1(input)
-    |> IO.inspect(label: :part_1)
+    assert 1_488_669 ==
+             Aoc2021.D2.part_1(input)
 
-    :ok
+    #  |> IO.inspect(label: :part_1)
   end
 
   # @tag :skip
@@ -32,9 +32,9 @@ defmodule Aoc2021Test.D2 do
         {c, s}
       end)
 
-    Aoc2021.D2.part_2(input)
-    |> IO.inspect(label: :part_2)
+    assert 1_176_514_794 ==
+             Aoc2021.D2.part_2(input)
 
-    :ok
+    #  |> IO.inspect(label: :part_2)
   end
 end
