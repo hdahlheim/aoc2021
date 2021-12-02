@@ -1,6 +1,6 @@
 defmodule Aoc2021.D2 do
   @doc """
-  D1
+  D2
 
   ## Examples
 
@@ -15,7 +15,7 @@ defmodule Aoc2021.D2 do
   end
 
   @doc """
-  D1 p2
+  D2 p2
 
   ## Examples
 
