@@ -23,22 +23,18 @@ defmodule Aoc2021.D3 do
   """
   def part_1(power) do
     len = length(power)
-    acc = get_bit_counter_list(power)
-
-    bits = count_bits(power, acc)
+    counter = get_bit_counter_list(power)
+    bits = count_bits(power, counter)
 
     gamma =
-      Enum.map(bits, fn bit_count -> if bit_count >= len / 2, do: 1, else: 0 end)
-      |> Enum.join()
+      Enum.map_join(bits, fn bit_count -> if bit_count >= len / 2, do: 1, else: 0 end)
       |> String.to_integer(2)
 
     epsilon =
-      Enum.map(bits, fn bit_count -> if bit_count >= len / 2, do: 0, else: 1 end)
-      |> Enum.join()
+      Enum.map_join(bits, fn bit_count -> if bit_count >= len / 2, do: 0, else: 1 end)
       |> String.to_integer(2)
 
-    Enum.product([gamma, epsilon])
-    |> IO.inspect()
+    gamma * epsilon
   end
 
   @doc """
