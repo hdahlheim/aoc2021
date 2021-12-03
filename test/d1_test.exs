@@ -1,33 +1,29 @@
 defmodule Aoc2021Test.D1 do
   use ExUnit.Case
-  doctest Aoc2021.D1
+  alias Aoc2021.D1
+  doctest D1
 
-  test "part 1" do
+  setup_all do
     input =
-      File.read!("./test/input/d1_input.txt")
+      "./test/input/d1_input.txt"
+      |> File.read!()
       |> String.split()
       |> Enum.map(fn v ->
         {int, _} = Integer.parse(v)
         int
       end)
 
-    assert 1581 ==
-             Aoc2021.D1.part_1(input)
+    {:ok, input: input}
+  end
+
+  test "part 1", state do
+    assert 1581 == D1.part_1(state[:input])
 
     #  |> IO.inspect(label: :part_1)
   end
 
-  test "part 2" do
-    input =
-      File.read!("./test/input/d1_input.txt")
-      |> String.split()
-      |> Enum.map(fn v ->
-        {int, _} = Integer.parse(v)
-        int
-      end)
-
-    assert 1618 ==
-             Aoc2021.D1.part_2(input)
+  test "part 2", state do
+    assert 1618 == D1.part_2(state[:input])
 
     #  |> IO.inspect(label: :part_2)
   end

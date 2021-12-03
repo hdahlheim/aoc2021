@@ -1,11 +1,12 @@
 defmodule Aoc2021Test.D3 do
   use ExUnit.Case
-  doctest Aoc2021.D3
+  alias Aoc2021.D3
+  doctest D3
 
-  # @tag :skip
-  test "part 1" do
+  setup_all do
     input =
-      File.read!("./test/input/d3_input.txt")
+      "./test/input/d3_input.txt"
+      |> File.read!()
       |> String.split("\n", trim: true)
       |> Enum.map(fn l ->
         l
@@ -13,23 +14,19 @@ defmodule Aoc2021Test.D3 do
         |> Enum.map(&String.to_integer/1)
       end)
 
+    {:ok, input: input}
+  end
+
+  # @tag :skip
+  test "part 1", state do
     assert 852_500 ==
-             Aoc2021.D3.part_1(input)
+             D3.part_1(state[:input])
              |> IO.inspect(label: :part_1)
   end
 
-  test "part 2" do
-    input =
-      File.read!("./test/input/d3_input.txt")
-      |> String.split("\n", trim: true)
-      |> Enum.map(fn l ->
-        l
-        |> String.graphemes()
-        |> Enum.map(&String.to_integer/1)
-      end)
-
+  test "part 2", state do
     assert 1_007_985 ==
-             Aoc2021.D3.part_2(input)
+             D3.part_2(state[:input])
              |> IO.inspect(label: :part_2)
   end
 end
