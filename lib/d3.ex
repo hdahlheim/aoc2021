@@ -23,27 +23,22 @@ defmodule Aoc2021.D3 do
   """
   def part_1(power) do
     len = length(power)
-    accLen = Enum.at(power, 0) |> length()
+    acc = get_bit_counter_list(power)
 
-    acc = Enum.reduce(1..accLen, [0], fn _, acc -> [0 | acc] end)
-
-    res =
-      Enum.reduce(power, acc, fn e, a ->
-        Enum.with_index(e)
-        |> Enum.map(fn {v, i} -> v + Enum.at(a, i) end)
-      end)
+    bits = count_bits(power, acc)
 
     gamma =
-      Enum.map(res, fn bit_count -> if bit_count >= div(len, 2), do: 1, else: 0 end)
+      Enum.map(bits, fn bit_count -> if bit_count >= len / 2, do: 1, else: 0 end)
       |> Enum.join()
       |> String.to_integer(2)
 
     epsilon =
-      Enum.map(res, fn bit_count -> if bit_count <= div(len, 2), do: 1, else: 0 end)
+      Enum.map(bits, fn bit_count -> if bit_count >= len / 2, do: 0, else: 1 end)
       |> Enum.join()
       |> String.to_integer(2)
 
-    gamma * epsilon
+    Enum.product([gamma, epsilon])
+    |> IO.inspect()
   end
 
   @doc """
@@ -69,54 +64,44 @@ defmodule Aoc2021.D3 do
 
   """
   def part_2(power) do
-    # len = length(power)
+    counter = get_bit_counter_list(power)
+    oxygen = filter_bits(power, :oxygen, 0, counter)
+    co2 = filter_bits(power, :co2, 0, counter)
+
+    co2 * oxygen
+  end
+
+  defp filter_bits([val], _, _, _), do: val |> Enum.join() |> String.to_integer(2)
+
+  defp filter_bits(power, type, index, counter) do
+    len = length(power)
+
+    {t, f} = get_filter_bits(type)
+
+    bit_count =
+      count_bits(power, counter)
+      |> Enum.at(index)
+
+    bit = if bit_count >= len / 2, do: t, else: f
+
+    Enum.filter(power, fn entry ->
+      Enum.at(entry, index) == bit
+    end)
+    |> filter_bits(type, index + 1, counter)
+  end
+
+  defp count_bits(power, acc) do
+    Enum.reduce(power, acc, fn e, a ->
+      Enum.with_index(e)
+      |> Enum.map(fn {v, i} -> v + Enum.at(a, i) end)
+    end)
+  end
+
+  defp get_bit_counter_list(power) do
     accLen = Enum.at(power, 0) |> length()
-
-    acc = Enum.reduce(1..accLen, [0], fn _, acc -> [0 | acc] end)
-
-    oxgen = filter_oxgen(power, 0, acc)
-    co2 = filter_co2(power, 0, acc)
-
-    co2 * oxgen
+    Enum.reduce(1..accLen, [0], fn _, acc -> [0 | acc] end)
   end
 
-  defp filter_oxgen([val], _index, _), do: val |> Enum.join() |> String.to_integer(2)
-
-  defp filter_oxgen(power, index, line_size) do
-    len = length(power)
-
-    res =
-      Enum.reduce(power, line_size, fn e, a ->
-        Enum.with_index(e)
-        |> Enum.map(fn {v, i} -> v + Enum.at(a, i) end)
-      end)
-
-    bit_count = Enum.at(res, index)
-
-    Enum.filter(power, fn entry ->
-      bit = if bit_count >= len / 2, do: 1, else: 0
-      Enum.at(entry, index) == bit
-    end)
-    |> filter_oxgen(index + 1, line_size)
-  end
-
-  defp filter_co2([val], _index, _), do: val |> Enum.join() |> String.to_integer(2)
-
-  defp filter_co2(power, index, line_size) do
-    len = length(power)
-
-    res =
-      Enum.reduce(power, line_size, fn e, a ->
-        Enum.with_index(e)
-        |> Enum.map(fn {v, i} -> v + Enum.at(a, i) end)
-      end)
-
-    bit_count = Enum.at(res, index)
-
-    Enum.filter(power, fn entry ->
-      bit = if bit_count >= len / 2, do: 0, else: 1
-      Enum.at(entry, index) == bit
-    end)
-    |> filter_co2(index + 1, line_size)
-  end
+  defp get_filter_bits(:oxygen), do: {1, 0}
+  defp get_filter_bits(:co2), do: {0, 1}
 end
