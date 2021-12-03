@@ -72,30 +72,33 @@ defmodule Aoc2021.D3 do
   defp filter_bits(power, type, index, counter) do
     len = length(power)
 
-    {t, f} = get_filter_bits(type)
-
     bit_count =
-      count_bits(power, counter)
+      power
+      |> count_bits(counter)
       |> Enum.at(index)
 
-    bit = if bit_count >= len / 2, do: t, else: f
+    {t, f} = get_filter_bits(type)
 
-    Enum.filter(power, fn entry ->
-      Enum.at(entry, index) == bit
+    power
+    |> Enum.filter(fn entry ->
+      Enum.at(entry, index) == if bit_count >= len / 2, do: t, else: f
     end)
     |> filter_bits(type, index + 1, counter)
   end
 
   defp count_bits(power, acc) do
     Enum.reduce(power, acc, fn e, a ->
-      Enum.with_index(e)
+      e
+      |> Enum.with_index()
       |> Enum.map(fn {v, i} -> v + Enum.at(a, i) end)
     end)
   end
 
   defp get_bit_counter_list(power) do
-    accLen = Enum.at(power, 0) |> length()
-    Enum.reduce(1..accLen, [0], fn _, acc -> [0 | acc] end)
+    power
+    |> Enum.at(0)
+    |> length()
+    |> then(&Enum.reduce(1..&1, [0], fn _, acc -> [0 | acc] end))
   end
 
   defp get_filter_bits(:oxygen), do: {1, 0}
