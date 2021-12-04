@@ -41,7 +41,8 @@ defmodule Aoc2021Test.D4 do
   test "part 2", state do
     {boards, calls} = state[:input]
 
-    D4.part_2(boards, calls)
-    |> IO.inspect(label: :part_2)
+    assert 12738 ==
+             D4.part_2(boards, calls)
+             |> IO.inspect(label: :part_2)
   end
 end
