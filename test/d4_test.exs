@@ -7,21 +7,32 @@ defmodule Aoc2021Test.D4 do
     input =
       "./test/input/d4_input.txt"
       |> File.read!()
-      |> String.split("\n", trim: true)
+      |> String.split("\n\n", trim: true)
+      |> then(fn [h | t] ->
+        cards =
+          Enum.map(t, &String.split(&1, "\n", trim: true))
+          |> Enum.map(fn l ->
+            Enum.map(l, fn row ->
+              String.split(row, " ", trim: true)
+              |> Enum.map(&String.to_integer/1)
+            end)
+          end)
 
-    # |> Enum.map(fn _l ->
-    #   nil
-    #   # l
-    #   # |> String.graphemes()
-    #   # |> Enum.map(&String.to_integer/1)
-    # end)
+        calls =
+          String.split(h, ",", trim: true)
+          |> Enum.map(&String.to_integer/1)
+
+        {cards, calls}
+      end)
 
     {:ok, input: input}
   end
 
-  @tag :skip
+  # @tag :skip
   test "part 1", state do
-    D4.part_1(state[:input])
+    {boards, calls} = state[:input]
+
+    D4.part_1(boards, calls)
     |> IO.inspect(label: :part_1)
   end
 
