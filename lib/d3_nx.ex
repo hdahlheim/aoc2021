@@ -22,12 +22,13 @@ defmodule Aoc2021.D3Nx do
 
   """
   def part_1(power) do
-    t = Nx.tensor(power)
+    t = Nx.tensor(power, type: {:u, 8}, names: [:numbers, :digits])
+
     l = elem(Nx.shape(t), 0)
 
-    one_count = Nx.sum(t, axes: [0])
+    one_count = Nx.sum(t, axes: [:numbers])
 
-    gamma = Nx.greater(one_count, Nx.subtract(l, one_count))
+    gamma = Nx.greater(one_count, l / 2)
     epsilon = Nx.logical_not(gamma)
 
     [gamma, epsilon]

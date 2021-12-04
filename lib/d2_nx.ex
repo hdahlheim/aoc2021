@@ -15,7 +15,8 @@ defmodule Aoc2021.D2Nx do
       ["up", num] -> {0, -String.to_integer(num)}
     end)
     |> Enum.unzip()
-    |> then(fn {xs, ys} -> {Nx.sum(Nx.tensor(xs)), Nx.sum(Nx.tensor(ys))} end)
+    |> then(fn {xs, ys} -> {Nx.tensor(xs), Nx.tensor(ys)} end)
+    |> then(fn {xs, ys} -> {Nx.sum(xs), Nx.sum(ys)} end)
     |> then(fn {x, y} -> Nx.multiply(x, y) end)
     |> Nx.to_scalar()
 
