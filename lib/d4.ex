@@ -35,28 +35,14 @@ defmodule Aoc2021.D4 do
     Enum.reduce_while(calls, {[], nil}, fn call, {calls_made, _} ->
       new_calls_made = [call | calls_made]
 
-      board_matched =
-        Enum.find(boards, fn board ->
-          transposed_board =
-            Enum.zip(board)
-            |> Enum.map(&Tuple.to_list/1)
-
-          all_options = Enum.concat(board, transposed_board)
-
-          Enum.any?(all_options, fn row -> length(row -- new_calls_made) == 0 end)
-        end)
+      board_matched = Enum.find(boards, &has_board_won?(&1, new_calls_made))
 
       case board_matched do
         nil -> {:cont, {new_calls_made, nil}}
         _ -> {:halt, {new_calls_made, board_matched}}
       end
     end)
-    |> then(fn {calls, card} ->
-      List.flatten(card)
-      |> then(&(&1 -- calls))
-      |> Enum.sum()
-      |> then(&(&1 * hd(calls)))
-    end)
+    |> get_board_points()
   end
 
   @doc """
@@ -95,27 +81,30 @@ defmodule Aoc2021.D4 do
     Enum.reduce_while(calls, {[], boards}, fn call, {calls_made, boards} ->
       new_calls_made = [call | calls_made]
 
-      boards_remaining =
-        Enum.reject(boards, fn board ->
-          transposed_board =
-            Enum.zip(board)
-            |> Enum.map(&Tuple.to_list/1)
-
-          all_options = Enum.concat(board, transposed_board)
-
-          Enum.any?(all_options, fn row -> length(row -- new_calls_made) == 0 end)
-        end)
+      boards_remaining = Enum.reject(boards, &has_board_won?(&1, new_calls_made))
 
       case length(boards_remaining) do
         0 -> {:halt, {new_calls_made, boards}}
         _ -> {:cont, {new_calls_made, boards_remaining}}
       end
     end)
-    |> then(fn {calls, card} ->
-      List.flatten(card)
-      |> then(&(&1 -- calls))
-      |> Enum.sum()
-      |> then(&(&1 * hd(calls)))
-    end)
+    |> get_board_points()
+  end
+
+  defp get_board_points({calls, board}) do
+    List.flatten(board)
+    |> then(&(&1 -- calls))
+    |> Enum.sum()
+    |> then(&(&1 * hd(calls)))
+  end
+
+  defp has_board_won?(board, calls_made) do
+    transposed_board =
+      Enum.zip(board)
+      |> Enum.map(&Tuple.to_list/1)
+
+    all_options = Enum.concat(board, transposed_board)
+
+    Enum.any?(all_options, fn row -> length(row -- calls_made) == 0 end)
   end
 end
