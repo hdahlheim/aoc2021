@@ -33,8 +33,7 @@ defmodule Aoc2021.D3Nx do
     [gamma, epsilon]
     |> Enum.map(fn e ->
       Nx.to_flat_list(e)
-      |> Enum.join()
-      |> String.to_integer(2)
+      |> Integer.undigits(2)
     end)
     |> Enum.product()
   end
@@ -61,7 +60,7 @@ defmodule Aoc2021.D3Nx do
       230
 
   """
-  def part_2(power) do
+  def part_2(_power) do
     :todo
   end
 end

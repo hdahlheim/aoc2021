@@ -67,7 +67,7 @@ defmodule Aoc2021.D3 do
     co2 * oxygen
   end
 
-  defp filter_bits([val], _, _, _), do: val |> Enum.join() |> String.to_integer(2)
+  defp filter_bits([val], _, _, _), do: Integer.undigits(val, 2)
 
   defp filter_bits(power, type, index, counter) do
     len = length(power)
