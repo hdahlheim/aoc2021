@@ -26,7 +26,7 @@ defmodule Aoc2021.D5 do
   end
 
   @doc """
-  D4 p2
+  D5 p2
 
   ## Examples
 
