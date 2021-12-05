@@ -56,12 +56,12 @@ defmodule Aoc2021.D5 do
 
   defp count_values(coordinates) do
     Enum.reduce(coordinates, %{}, fn [{x1, y1}, {x2, y2}], map ->
-      slope = :math.atan2(y2 - y1, x2 - x1)
+      angle = :math.atan2(y2 - y1, x2 - x1)
 
       new_map =
         for x <- x1..x2,
             y <- y1..y2,
-            slope == :math.atan2(y - y1, x - x1) or (y == y1 and x == x1),
+            angle == :math.atan2(y - y1, x - x1) or (y == y1 and x == x1),
             into: %{} do
           {{x, y}, 1}
         end
