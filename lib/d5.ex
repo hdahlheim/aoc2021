@@ -30,7 +30,7 @@ defmodule Aoc2021.D5 do
 
   ## Examples
 
-      iex> Aoc2021.D5.part_1([
+      iex> Aoc2021.D5.part_2([
       iex>    [{0,9},{5,9}],
       iex>    [{8,0},{0,8}],
       iex>    [{9,4},{3,4}],
@@ -43,7 +43,7 @@ defmodule Aoc2021.D5 do
       iex>    [{5,5},{8,2}],
       iex>  ]
       iex> )
-      5
+      12
   """
   def part_2(coordinates) do
     coordinates
