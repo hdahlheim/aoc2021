@@ -93,12 +93,12 @@ defmodule Aoc2021.D8 do
   end
 
   defp get_full_key(code, key) do
-    int = decode_diget(code, key)
+    int = decode_digit(code, key)
 
     if int != nil, do: Map.put(key, int, code), else: key
   end
 
-  defp decode_diget(code, %{1 => one, 4 => four}) when length(code) == 6 do
+  defp decode_digit(code, %{1 => one, 4 => four}) when length(code) == 6 do
     case length(code -- one) do
       5 ->
         6
@@ -111,7 +111,7 @@ defmodule Aoc2021.D8 do
     end
   end
 
-  defp decode_diget(code, %{1 => one, 4 => four}) when length(code) == 5 do
+  defp decode_digit(code, %{1 => one, 4 => four}) when length(code) == 5 do
     case length(code -- one) do
       3 ->
         3
@@ -124,7 +124,7 @@ defmodule Aoc2021.D8 do
     end
   end
 
-  defp decode_diget(_, _), do: nil
+  defp decode_digit(_, _), do: nil
 
   defp reverse_key_map(key) do
     for {k, v} <- key, into: %{} do
